@@ -2,6 +2,7 @@ package com.example.android.sunshine;
 
 import android.content.Intent;
 import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -30,6 +31,7 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
     private static final String LOG_TAG = DetailFragment.class.getSimpleName();
     private static final String FORECAST_SHARE_HASHTAG ="#SSSUUUNNNNSSHHHIIIINNNNNEEE";
 
+    static String DETAIL_URI = "URI";
     private ShareActionProvider mShareActionProvider;
     private static final String[] FORECAST_COLUMNS = {
             WeatherContract.WeatherEntry.TABLE_NAME + "." + WeatherContract.WeatherEntry._ID,
@@ -40,7 +42,8 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
             WeatherContract.WeatherEntry.COLUMN_HUMIDITY,
             WeatherContract.WeatherEntry.COLUMN_WIND_SPEED,
             WeatherContract.WeatherEntry.COLUMN_DEGREES,
-            WeatherContract.WeatherEntry.COLUMN_PRESSURE
+            WeatherContract.WeatherEntry.COLUMN_PRESSURE,
+            WeatherContract.WeatherEntry.COLUMN_WEATHER_ID
 
     };
 
@@ -55,6 +58,7 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
     private static final int COL_WIND_SPEED = 6;
     private static final int COL_DEGREES = 7;
     private static final int COL_PRESSURE = 8;
+    private static final int COL_WEATHER_DESC_ID = 9;
 
 
 
@@ -71,6 +75,8 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
     private TextView friendlyDateView;
     private String forecast;
 
+    private Uri mUri;
+
     public DetailFragment() {
     }
 
@@ -78,12 +84,15 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        View rootView = inflater.inflate(R.layout.fragment_detail, container, false);
-        Intent intent = getActivity().getIntent();
-
-        if (intent != null){
-            forecast = intent.getDataString();
+        Bundle arguments = getArguments();
+        if(arguments != null)
+        {
+            mUri = arguments.getParcelable(DETAIL_URI);
         }
+        View rootView = inflater.inflate(R.layout.fragment_detail, container, false);
+
+
+
         dateView = (TextView)rootView.findViewById(R.id.selected_date);
         highDegreeView = (TextView)rootView.findViewById(R.id.selected_high_temp);
         descriptionView = (TextView) rootView.findViewById(R.id.selected_forecast);
@@ -132,21 +141,18 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
 
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-        Log.v(LOG_TAG, "In onCreateLoader");
-        Intent intent = getActivity().getIntent();
-        if (intent == null || intent.getData() == null) {
-            return null;
+        if(mUri != null)
+        {
+            return new CursorLoader(
+                    getActivity(),
+                    mUri,
+                    FORECAST_COLUMNS,
+                    null,
+                    null,
+                    null
+            );
         }
-        return new CursorLoader(
-                getActivity(),
-                intent.getData(),
-                FORECAST_COLUMNS,
-                null,
-                null,
-                null
-        );
-
-
+        return null;
     }
 
     @Override
@@ -184,7 +190,7 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
 
         descriptionView.setText(weatherDescription);
 
-        image.setImageResource(R.mipmap.ic_launcher);
+        image.setImageResource(Utility.getArtResourceForWeatherCondition(data.getInt(COL_WEATHER_DESC_ID)));
 
 
         float windSpeedStr = data.getFloat(COL_WIND_SPEED);
@@ -206,6 +212,17 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
 
+    }
+
+    void onLocationChanged( String newLocation ) {
+        // replace the uri, since the location has changed
+        Uri uri = mUri;
+        if (null != uri) {
+            long date = WeatherContract.WeatherEntry.getDateFromUri(uri);
+            Uri updatedUri = WeatherContract.WeatherEntry.buildWeatherLocationWithDate(newLocation, date);
+            mUri = updatedUri;
+            getLoaderManager().restartLoader(DETAIL_LOADER, null, this);
+        }
     }
 
 }

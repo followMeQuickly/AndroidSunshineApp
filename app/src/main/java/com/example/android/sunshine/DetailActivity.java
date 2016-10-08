@@ -3,6 +3,7 @@ package com.example.android.sunshine;
 import android.app.FragmentManager;
 import android.content.Intent;
 import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -37,9 +38,15 @@ public class DetailActivity extends ActionBarActivity {
         setContentView(R.layout.activity_detail);
         Intent intent = getIntent();
         forecast = intent.getStringExtra(Intent.EXTRA_TEXT);
+
+        DetailFragment detailFragment = new DetailFragment();
+        Bundle argments = new Bundle();
+        Uri intentData = getIntent().getData();
+        argments.putParcelable(DetailFragment.DETAIL_URI, intentData);
+        detailFragment.setArguments(argments);
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
-                    .add(R.id.container, new DetailFragment())
+                    .add(R.id.container, detailFragment)
                     .commit();
         }
 
