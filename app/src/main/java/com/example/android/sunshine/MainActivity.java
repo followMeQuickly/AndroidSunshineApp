@@ -38,7 +38,10 @@ public class MainActivity extends AppCompatActivity implements ForecastFragmentC
         }
         else {
             mIsTwoPane = false;
+            getSupportActionBar().setElevation(0f);
         }
+        ForecastFragment forecastFragment = (ForecastFragment)getSupportFragmentManager().findFragmentById(R.id.fragment_forecast);
+        forecastFragment.SetUseTodayLayout(!mIsTwoPane);
 
     }
 

@@ -182,7 +182,7 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
         humidityView.setText(humidity.toString());
         long date = data.getLong(COL_WEATHER_DATE);
         friendlyDateView.setText(Utility.getFriendlyDayFormat(getActivity(), date));
-        highDegreeView.setText(high);
+        highDegreeView.setText(high + "");
 
 
         lowDegreeView.setText(low);

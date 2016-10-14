@@ -8,46 +8,60 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
+        android:layout_gravity="left"
+        android:gravity="center_vertical"
         android:padding="16dp">
 
         <TextView
             android:id="@+id/selected_day"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif-condensed"
+            android:textSize="24sp"
+            />
 
         <TextView
             android:id="@+id/selected_date"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="24sp"
+            android:textColor="@color/sunshine_grey"/>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginTop="16dp"
+            android:gravity="center_horizontal"
             android:orientation="horizontal">
 
             <LinearLayout
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
+                android:gravity="left"
                 android:orientation="vertical">
 
                 <TextView
                     android:id="@+id/selected_high_temp"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif"
+                    android:textAppearance="?android:textAppearanceLarge"
+                    android:textSize="96sp"/>
 
                 <TextView
                     android:id="@+id/selected_low_temp"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif"
+                    android:textAppearance="?android:textAppearanceLarge"
+                    android:textSize="48sp"/>
             </LinearLayout>
 
             <LinearLayout
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center_horizontal"
+                android:layout_gravity="center_horizontal"
+                android:gravity="center"
                 android:orientation="vertical">
 
                 <ImageView
@@ -58,31 +72,51 @@
                 <TextView
                     android:id="@+id/selected_forecast"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/sunshine_grey"
+                    android:textAppearance="?android:textAppearanceLarge"
+                    />
 
 
             </LinearLayout>
 
 
         </LinearLayout>
-
-
+    <LinearLayout
+        android:layout_height="match_parent"
+        android:layout_marginRight="0dp"
+        android:layout_marginTop="16dp"
+        android:layout_width="match_parent"
+        android:orientation="vertical">
         <TextView
             android:id="@+id/selected_wind"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="4dp"
+            android:fontFamily="sans-serif"
+            android:textAppearance="?android:textAppearanceLarge"/>
 
 
         <TextView
             android:id="@+id/selected_humidity"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="4dp"
+            android:fontFamily="sans-serif"
+            android:textAppearance="?android:textAppearanceLarge"/>
 
 
         <TextView
             android:id="@+id/selected_pressure"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="4dp"
+            android:fontFamily="sans-serif"
+            android:textAppearance="?android:textAppearanceLarge"/>
+    </LinearLayout>
+
+
+
 
     </LinearLayout>
 
