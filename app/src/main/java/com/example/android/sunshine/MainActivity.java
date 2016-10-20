@@ -76,27 +76,11 @@ public class MainActivity extends AppCompatActivity implements ForecastFragmentC
             Intent settingsIntent = new Intent(this, SettingsActivity.class);
             startActivity(settingsIntent);
         }
-        if (item.getItemId() == R.id.preferredLocation) {
-            openPreferredLocationInMap();
-        }
+
         return super.onOptionsItemSelected(item);
     }
 
-    private void openPreferredLocationInMap() {
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
 
-        String location =
-                Utility.getPreferredLocation(this);
-        Uri geoLocation = Uri.parse("geo:0,0?").buildUpon()
-                .appendQueryParameter("q", location)
-                .build();
-        Intent mapIntent = new Intent(Intent.ACTION_VIEW);
-
-        mapIntent.setData(geoLocation);
-        if (mapIntent.resolveActivity(getPackageManager()) != null) {
-            startActivity(mapIntent);
-        }
-    }
 
     @Override
     public void onItemSelected(Uri dateUri) {
